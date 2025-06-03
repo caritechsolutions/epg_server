@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPG Management Dashboard</title>
+    <link rel="stylesheet" href="epg-styles.css">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1><i class="fas fa-tv"></i> EPG Management System</h1>
+            <div class="header-actions">
+                <button id="refresh-btn" class="action-btn">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </header>
+
+        <div class="status-cards">
+            <div class="status-card">
+                <div class="card-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Last EPG Update</h3>
+                    <p id="last-update-time">Loading...</p>
+                    <small id="update-details"></small>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <div class="card-icon">
+                    <i class="fas fa-broom"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Last Cleanup</h3>
+                    <p id="last-cleanup-time">Loading...</p>
+                    <small id="cleanup-details"></small>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <div class="card-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Database Status</h3>
+                    <p id="db-status">Active</p>
+                    <small>Events: <span id="event-count">0</span></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="epg-controls">
+            <div class="date-navigation">
+                <button id="prev-day" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+                <input type="date" id="epg-date" class="date-input">
+                <button id="next-day" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+                <button id="today-btn" class="nav-btn" style="width: auto; padding: 0 15px;">Today</button>
+            </div>
+            <div class="view-controls">
+                <select id="channel-filter" class="filter-select">
+                    <option value="">All Channels</option>
+                </select>
+                <button id="add-event-btn" class="action-btn primary">
+                    <i class="fas fa-plus"></i> Add Event
+                </button>
+            </div>
+        </div>
+
+        <div class="epg-grid-container">
+            <div id="epg-grid" class="epg-grid">
+                <!-- EPG grid will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Edit Modal -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Edit Event</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="event-form">
+                <input type="hidden" id="event-id">
+                <input type="hidden" id="service-id">
+                
+                <div class="form-group">
+                    <label for="event-channel">Channel</label>
+                    <select id="event-channel" class="form-input" required>
+                        <option value="">Select Channel</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-name">Event Name</label>
+                    <input type="text" id="event-name" class="form-input" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-date">Date</label>
+                        <input type="date" id="event-date" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-start">Start Time</label>
+                        <input type="time" id="event-start" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-duration">Duration</label>
+                    <input type="time" id="event-duration" class="form-input" value="00:30" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-desc">Description</label>
+                    <textarea id="event-desc" class="form-input" rows="3"></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel">Cancel</button>
+                    <button type="submit" class="btn-save">Save Event</button>
+                    <button type="button" id="delete-event" class="btn-delete" style="display:none;">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="epg-dashboard.js"></script>
+</body>
+</html>
